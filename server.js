@@ -1,11 +1,13 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+var cors = require('cors');
 
 
 const app = express();
 
 // Middleware-ek
+app.use(cors());
 app.use(express.json()); // json formatum megkövetelése
 app.use(express.urlencoded({extended: true})); // req body-n keresztül átmenjenek az adatok
 
@@ -42,7 +44,7 @@ app.post('/users', (req, res) => {
     users.push(data);
     data.id = getNextID();
     saveUsers();
-    res.send("megvan");
+    res.send(users);
 });
 
 // DELETE user by id

@@ -35,16 +35,19 @@ app.get("/users/:id", (req, res) => {
     if (idx > -1) {
         return res.send(users[idx]);
     }
-    return res.send("Nincs ilyen azonosítójú felhasználó!");
+    return res.status(400).send({msg: "Nincs ilyen azonosítójú felhasználó!"});
 });
 
 // POST new user
 app.post('/users', (req, res) => {
     let data = req.body;
+    if (isEmailExists(data.email)) {
+        return res.status(400).send({msg: 'Ez az email cím már regisztrálva van.'})
+    }
     users.push(data);
     data.id = getNextID();
     saveUsers();
-    res.send(users);
+    res.send({msg: 'A felhasználó regisztrálva!'});
 });
 
 // DELETE user by id
@@ -54,9 +57,9 @@ app.delete('/users/:id', (req, res) => {
     if (idx > -1) {
         users.splice(idx, 1);
         saveUsers();
-        return res.send("A felhasználó törölve.");
+        return res.send({msg: "A felhasználó törölve."});
     }
-    return res.send("Nincs ilyen azonosítójú felhasználó!")
+    return res.status(400).send({msg: "Nincs ilyen azonosítójú felhasználó!"})
 });
 
 // UPDATE user by id
@@ -68,7 +71,7 @@ app.patch('/users/:id', (req, res) => {
         users[idx] = data;
         users[idx].id = Number(id);
         saveUsers();
-        res.send("A felhasználó módosítva")
+        res.send({msg: "A felhasználó módosítva"})
     }
 });
 
@@ -107,4 +110,16 @@ function loadUsers() {
 
 function saveUsers() {
     fs.writeFileSync(USERS_FILE, JSON.stringify(users));
+}
+
+
+function isEmailExists(email) {
+    let exists = false;
+    users.forEach(user => {
+        if (user.email == email) {
+            exists = true;
+            return exists;
+        }
+    });
+    return exists;
 }

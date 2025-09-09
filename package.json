@@ -4,7 +4,8 @@
   "description": "Javascript lépésszámláló alkalmazás backend",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server",
+    "dev": "nodemon server"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,13 @@
   "bugs": {
     "url": "https://github.com/n-szilard/LepesSzamlaloNode/issues"
   },
-  "homepage": "https://github.com/n-szilard/LepesSzamlaloNode#readme"
+  "homepage": "https://github.com/n-szilard/LepesSzamlaloNode#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
 }

@@ -1,0 +1,42 @@
+### GET mainpage
+
+GET http://localhost:3000
+Content-Type: application/json
+
+
+### GET users
+
+GET http://localhost:3000/users
+Content-Type: application/json
+
+
+### GET one user
+
+GET http://localhost:3000/users/3
+Content-Type: application/json
+
+### POST new user
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "name": "Jozsef",
+    "email": "teszt@teszt.hu",
+    "password": "123456789"
+}
+
+
+### DELETE user by id
+DELETE http://localhost:3000/users/2
+Content-Type: application/json
+
+
+### PATCH user by id
+PATCH http://localhost:3000/users/1
+Content-Type: application/json
+
+{
+    "name": "Pityu",
+    "email": "teszt123@teszt.hu",
+    "password": "Titkos123"
+}

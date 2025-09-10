@@ -40,3 +40,13 @@ Content-Type: application/json
     "email": "teszt123@teszt.hu",
     "password": "Titkos123"
 }
+
+
+### POST login
+POST http://localhost:3000/users/login
+Content-Type: application/json
+
+{
+    "email": "teszt@teszt.hu",
+    "password": "Jelszo123"
+}

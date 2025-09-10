@@ -75,6 +75,19 @@ app.patch('/users/:id', (req, res) => {
     }
 });
 
+// POST check user login
+app.post('/users/login', (req, res) => {
+    let { email, password } = req.body;
+    let loggedUser = {};
+    users.forEach(user => {
+        if (user.email == email && user.password == password) {
+            loggedUser = user;
+            return;
+        }
+    });
+    res.send(loggedUser);
+})
+
 app.listen(3000);
 
 let getNextID = () => {

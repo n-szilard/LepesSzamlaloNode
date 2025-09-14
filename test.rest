@@ -50,3 +50,25 @@ Content-Type: application/json
     "email": "teszt@teszt.hu",
     "password": "Jelszo123"
 }
+
+
+### PATCH password
+PATCH  http://localhost:3000/users/passmod
+Content-Type: application/json
+
+{
+    "id": 2,
+    "oldPassword": "Jelszo123",
+    "newPassword": "Cicakutya123"
+}
+
+
+### PATCH name and email
+PATCH http://localhost:3000/users/profile
+Content-Type: application/json
+
+{
+    "id": 2,
+    "email": "test@test.hu",
+    "name": "Teszter Istvan"
+}

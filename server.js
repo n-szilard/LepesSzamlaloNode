@@ -1,7 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-var cors = require('cors');
+const cors = require('cors');
 
 
 const app = express();
@@ -18,7 +18,7 @@ loadUsers();
 // ENDPOINTS
 
 app.get('/', (req, res) => {
-  res.send('Türr Pista - 13.a szoftverfejlesztő lépegetés számláló backend api')
+    res.send('Türr Pista - 13.a szoftverfejlesztő lépegetés számláló backend api')
 });
 
 
@@ -27,6 +27,44 @@ app.get("/users", (req, res) => {
     res.send(users);
 })
 
+// UPDATE user password
+app.patch('/users/passmod', (req, res) => {
+    console.log(req.body)
+    let {id, oldPassword, newPassword} = req.body;
+    let idx = users.findIndex(user => user.id == id);
+    if (idx === -1) {
+        return res.status(400).send({msg: "Nincs ilyen azonosítójú felhasználó!"});
+    }
+    if (users[idx].password !== oldPassword) {
+        return res.status(400).send({msg: "A régi jelszó nem egyezik!"});
+    }
+    users[idx].password = newPassword;
+    saveUsers();
+    res.send({msg: "A jelszó sikeresen módosítva!"});
+});
+
+// UPDATE user email and name
+app.patch('/users/profile', (req, res) => {
+    let {id, email, name} = req.body;
+    let idx = users.findIndex(user => user.id == id);
+    if (idx === -1) {
+        return res.status(400).send({msg: "Nincs ilyen azonosítójú felhasználó!"});
+    }
+
+    if (email !== users[idx].email) {
+        if (isEmailExists(email)) {
+            return res.status(400).send({msg: 'Ez az email cím már regisztrálva van.'});
+        }
+        users[idx].email = email;
+    }
+
+    if (name) {
+        users[idx].name = name;
+    }
+
+    saveUsers();
+    res.send({msg: "A felhasználó módosítva"});
+});
 
 // GET one user by id
 app.get("/users/:id", (req, res) => {
@@ -86,25 +124,18 @@ app.post('/users/login', (req, res) => {
         }
     });
     res.send(loggedUser);
-})
+});
 
 app.listen(3000);
 
-let getNextID = () => {
-    let nextID = 1;
-    if (users.length == 0) {
-        return nextID;
-    }
-
-    let maxIndex = 0;
-    for (let i = 0; i < users.length; i++) {
-        if (users[i].id > users[maxIndex].id) {
-            maxIndex = i;
-        }
-    }
-
-    return users[maxIndex].id + 1;
+function getNextID() {
+    const maxId = users.reduce((max, u) => {
+        const id = Number(u?.id);
+        return Number.isFinite(id) && id > max ? id : max;
+    }, 0);
+    return maxId + 1;
 }
+
 
 
 function loadUsers() {

@@ -21,7 +21,7 @@ Content-Type: application/json
 
 {
     "name": "Jozsef",
-    "email": "teszt@teszt.hu",
+    "email": "tesztererre@teszt.hu",
     "password": "123456789"
 }
 
@@ -72,3 +72,40 @@ Content-Type: application/json
     "email": "test@test.hu",
     "name": "Teszter Istvan"
 }
+
+
+### POST new step by uid
+POST http://localhost:3000/steps/upload/8
+Content-Type: application/json
+
+{
+    "date": "2026-04-21",
+    "count": 6000300
+}
+
+### GET one step by id
+GET http://localhost:3000/steps/1
+Content-Type: application/json
+
+### GET all steps by uid
+GET http://localhost:3000/steps/user/4
+Content-Type: application/json
+
+### PATCH step by id
+PATCH http://localhost:3000/steps/2
+Content-Type: application/json
+
+{
+    "newDate": "2028-02-01",
+    "newCount": 32400
+}
+
+
+### DELETE step by id
+DELETE http://localhost:3000/steps/2
+Content-Type: application/json
+
+
+### DELETE all steps by uid
+DELETE http://localhost:3000/steps/users/8
+Content-Type: application/json

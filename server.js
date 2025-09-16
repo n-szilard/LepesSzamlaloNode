@@ -137,13 +137,22 @@ app.post('/users/login', (req, res) => {
 // GET all steps by userId
 app.get('/steps/user/:uid', (req, res) => {
     let uid = Number(req.params.uid);
-    let matchSteps = [];
+    let idx = users.findIndex(user => user.id == uid)
+
+    if (idx == -1) {
+        res.status(400).send({msg: "Nincs ilyen felhasznalo"});
+        return;
+    }
+
+    res.send(steps.filter(step => step.uid == uid));
+
+    /* let matchSteps = [];
     steps.forEach(step => {
         if (step.uid === uid) {
             matchSteps.push(step);
         }
     });
-    res.send(matchSteps);
+    res.send(matchSteps); */
 });
 
 
@@ -206,12 +215,18 @@ app.delete('/steps/:id', (req, res) => {
 // DELETE all steps by userId
 app.delete('/steps/users/:uid', (req, res) => {
     let uid = Number(req.params.uid);
+    let idx = users.findIndex(user => user.id == uid)
+
+    if (idx == -1) {
+        res.status(400).send({msg: "Nincs ilyen felhasználó!"});
+        return;
+    }
 
     let newSteps = steps.filter(step => step.uid != uid);
     steps = newSteps;
 
     saveSteps();
-    res.send({msg: `Siker?`})
+    res.send({msg: 'Lépésadatok sikeresen törölve'})
 });
 
 app.listen(3000);
